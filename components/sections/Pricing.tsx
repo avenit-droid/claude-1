@@ -18,41 +18,47 @@ export default function Pricing() {
         <p className="mt-3 max-w-lg text-[15px] text-[var(--text-dim)]">{t.lead}</p>
 
         <div className="mt-14 grid gap-6 lg:grid-cols-3">
-          {t.plans.map((plan, i) => (
-            <motion.div
-              key={plan.name}
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.3 }}
-              transition={{ duration: 0.6, delay: i * 0.1 }}
-              className={cn(
-                "flex flex-col rounded-3xl border p-8",
-                plan.featured
-                  ? "border-opal bg-gradient-to-b from-opal/10 to-transparent shadow-glow"
-                  : "border-[var(--border)]"
-              )}
-            >
-              <p className="font-display text-2xl text-[var(--text)]">{plan.name}</p>
-              <p className="mt-4 font-display text-3xl text-opal">{plan.price}</p>
-              <p className="text-[12px] text-[var(--text-dim)]">{plan.period}</p>
-              <p className="mt-4 text-[13.5px] leading-relaxed text-[var(--text-dim)]">{plan.description}</p>
+          {t.plans.map((plan, i) => {
+            const featured = "featured" in plan && plan.featured;
 
-              <ul className="mt-6 flex-1 space-y-3">
-                {plan.features.map((f) => (
-                  <li key={f} className="flex items-start gap-2 text-[13px] text-[var(--text-dim)]">
-                    <span className="mt-1 text-aurora">✓</span>
-                    <span>{f}</span>
-                  </li>
-                ))}
-              </ul>
+            return (
+              <motion.div
+                key={plan.name}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ duration: 0.6, delay: i * 0.1 }}
+                className={cn(
+                  "flex flex-col rounded-3xl border p-8",
+                  featured
+                    ? "border-opal bg-gradient-to-b from-opal/10 to-transparent shadow-glow"
+                    : "border-[var(--border)]"
+                )}
+              >
+                <p className="font-display text-2xl text-[var(--text)]">{plan.name}</p>
+                <p className="mt-4 font-display text-3xl text-opal">{plan.price}</p>
+                <p className="text-[12px] text-[var(--text-dim)]">{plan.period}</p>
+                <p className="mt-4 text-[13.5px] leading-relaxed text-[var(--text-dim)]">
+                  {plan.description}
+                </p>
 
-              <div className="mt-8">
-                <MagneticButton variant={plan.featured ? "primary" : "ghost"} className="w-full justify-center">
-                  {locale === "ru" ? "Обсудить" : "Discuss"}
-                </MagneticButton>
-              </div>
-            </motion.div>
-          ))}
+                <ul className="mt-6 flex-1 space-y-3">
+                  {plan.features.map((f) => (
+                    <li key={f} className="flex items-start gap-2 text-[13px] text-[var(--text-dim)]">
+                      <span className="mt-1 text-aurora">✓</span>
+                      <span>{f}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                <div className="mt-8">
+                  <MagneticButton variant={featured ? "primary" : "ghost"} className="w-full justify-center">
+                    {locale === "ru" ? "Обсудить" : "Discuss"}
+                  </MagneticButton>
+                </div>
+              </motion.div>
+            );
+          })}
         </div>
       </div>
     </section>
