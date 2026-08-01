@@ -1,0 +1,152 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-display: "Bricolage Grotesque", sans-serif;
+  --font-body: "Instrument Sans", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+
+  --bg: #050507;
+  --surface: #0A0A0F;
+  --surface-2: #17161C;
+  --text: #E8E6E0;
+  --text-dim: #8A8894;
+  --accent: #B8A6FF;
+  --accent-2: #4FE8C9;
+  --border: rgba(232, 230, 224, 0.1);
+  --cursor-scale: 1;
+}
+
+html[data-theme="light"] {
+  --bg: #F6F4EF;
+  --surface: #FFFFFF;
+  --surface-2: #EDEAE2;
+  --text: #0C0B10;
+  --text-dim: #5B5964;
+  --accent: #7C63E8;
+  --accent-2: #1FA98A;
+  --border: rgba(12, 11, 16, 0.1);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--bg);
+  scroll-behavior: auto;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  overscroll-behavior: none;
+  cursor: none;
+}
+
+@media (max-width: 860px), (pointer: coarse) {
+  body {
+    cursor: auto;
+  }
+  .cursor-root, .cursor-dot {
+    display: none !important;
+  }
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--bg);
+}
+
+a, button, [data-magnetic] {
+  cursor: none;
+}
+
+/* === Скролл-контейнер Lenis === */
+html.lenis, html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+/* === Стеклянные поверхности === */
+.glass {
+  background: color-mix(in srgb, var(--surface) 55%, transparent);
+  backdrop-filter: blur(24px) saturate(140%);
+  -webkit-backdrop-filter: blur(24px) saturate(140%);
+  border: 1px solid var(--border);
+}
+
+/* === Зернистость / film grain поверх сцен === */
+.grain-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation: grain 1.2s steps(6) infinite;
+}
+
+/* === Кастомный курсор === */
+.cursor-root {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 22px;
+  height: 22px;
+  border-radius: 999px;
+  border: 1.5px solid var(--accent);
+  pointer-events: none;
+  z-index: 999;
+  mix-blend-mode: difference;
+  transform: translate3d(-50%, -50%, 0) scale(var(--cursor-scale));
+  transition: opacity 0.2s ease;
+}
+.cursor-dot {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 5px;
+  height: 5px;
+  border-radius: 999px;
+  background: var(--accent-2);
+  pointer-events: none;
+  z-index: 999;
+  transform: translate3d(-50%, -50%, 0);
+}
+
+/* === Доступность: фокус === */
+:focus-visible {
+  outline: 2px solid var(--accent-2);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* === Уважение к reduced motion === */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .grain-overlay { display: none; }
+}
+
+.text-balance {
+  text-wrap: balance;
+}
+
+.container-luxora {
+  width: min(1400px, 92vw);
+  margin-inline: auto;
+}

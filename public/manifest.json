@@ -1,0 +1,10 @@
+{
+  "name": "LUXORA — The Future Exists Here",
+  "short_name": "LUXORA",
+  "description": "Лаборатория живой материи и интеллекта.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#050507",
+  "theme_color": "#050507",
+  "icons": [{ "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml" }]
+}
