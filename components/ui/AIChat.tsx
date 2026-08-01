@@ -11,7 +11,7 @@ interface Message {
   text: string;
 }
 
-const KNOWLEDGE: Record<string, { ru: string; en: string }> = {
+const KNOWLEDGE = {
   material: {
     ru: "CORE — сплав жидкого металла со встроенной нейросетью: он меняет жёсткость за 0.4мс и восстанавливает микроповреждения за 6 часов силами био-синтеза.",
     en: "CORE is a liquid-metal alloy with an embedded neural network: it shifts rigidity within 0.4ms and repairs micro-damage in 6 hours via bio-synthesis.",
@@ -36,11 +36,13 @@ const KNOWLEDGE: Record<string, { ru: string; en: string }> = {
 
 function pickAnswer(input: string, locale: "ru" | "en"): string {
   const q = input.toLowerCase();
-  if (/матери|alloy|material|core\b/.test(q)) return KNOWLEDGE.material[locale];
-  if (/цена|стоим|price|cost|тариф/.test(q)) return KNOWLEDGE.price[locale];
-  if (/срок|время|когда|time|deploy|when/.test(q)) return KNOWLEDGE.time[locale];
-  if (/команд|team|кто дела/.test(q)) return KNOWLEDGE.team[locale];
-  return KNOWLEDGE.default[locale];
+
+  if (/матери|alloy|material|core\b/.test(q)) return KNOWLEDGE["material"]!.ru && KNOWLEDGE["material"]![locale];
+  if (/цена|стоим|price|cost|тариф/.test(q)) return KNOWLEDGE["price"]![locale];
+  if (/срок|время|когда|time|deploy|when/.test(q)) return KNOWLEDGE["time"]![locale];
+  if (/команд|team|кто дела/.test(q)) return KNOWLEDGE["team"]![locale];
+
+  return KNOWLEDGE["default"]![locale];
 }
 
 let idCounter = 1;
